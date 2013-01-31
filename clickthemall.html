@@ -7,28 +7,20 @@
     <div id="table"></div>
     <button id="button">Falling</button>
 <script>
-    /*function createArray(max_width, max_height) {
-        var arr = [];
-        for (var x = 0; x < max_width; x++) {
-            arr.push([]);
-            for (var y = 0; y < max_height; y++) {
-                arr[x].push(Math.floor(Math.random()*5));
-            }
-        }
-        return arr;
-    }*/
 
+    // Генерация игрового массива
     function createArray(max_width, max_height, min_value, max_value) {
         var arr = [];
         for (var x = 0; x < max_width; x++) {
             arr.push([]);
             for (var y = 0; y < max_height; y++) {
-                arr[x].push(Math.floor(Math.random()*max_value) ? Math.floor(Math.random()*max_value) : 0);
+                arr[x].push(Math.floor(min_value + Math.random()*(max_value-min_value+1)));
             }
         }
         return arr;
     }
 
+    // Отображение игрового поля
     function render(arr) {
         var html = '<table border="1">';
         for (var y = 0; y < arr.length; y++) {
@@ -42,6 +34,7 @@
         return html;
     }
 
+    // Падение блоков сверху вниз, если в столбце есть пустые (равные нулю) блоки и слева направо, если столбец слева целиком пустой (только нули)
     function falling(arr) {
         // Переменная, которая показывает номер самого левого столбца с нулями
         var leftColumn = 0;
@@ -75,7 +68,7 @@
 
 
     var myarr;
-    myarr = createArray(10,10, 0, 2);
+    myarr = createArray(10,10, 3, 5);
     document.getElementById('table').innerHTML = render(myarr);
     document.getElementById('button').onclick = function() {
         var arr = falling(myarr);
