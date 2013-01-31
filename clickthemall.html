@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Click Them All</title>
+    <script src="http://code.jquery.com/jquery-1.9.0.min.js"></script>
+</head>
+<body>
+    <div id="table"></div>
+    <button id="button">Falling</button>
+<script>
+    function createArray(max_width, max_height) {
+        var arr = [];
+        for (var x = 0; x < max_width; x++) {
+            arr.push([]);
+            for (var y = 0; y < max_height; y++) {
+                arr[x].push(Math.floor(Math.random()*5));
+            }
+        }
+        return arr;
+    }
+
+    function render(arr) {
+        var html = '<table border="1">';
+        for (var y = 0; y < arr.length; y++) {
+            html += '<tr>';
+            for (var x = 0; x < arr[y].length; x++) {
+                html += '<td>' + arr[y][x] + '</td>';
+            }
+            html += '</tr>';
+        }
+        html += '</table>';
+        return html;
+    }
+
+    function falling(arr) {
+        for(var x = 0; x < arr.length; x++) {
+            var topRow = arr.length - 1;
+            for(var y = arr[0].length-1; y >= 0; y--)
+            {
+                if(arr[y][x] !== 0)
+                {
+                    if(topRow > y)
+                    {
+                        arr[topRow][x] = arr[y][x];
+                        arr[y][x] = 0;
+                    }
+                    topRow--;
+                }
+            }
+        }
+        return arr;
+    }
+
+    var myarr;
+    myarr = createArray(10,10);
+    document.getElementById('table').innerHTML = render(myarr);
+    $('#button').click(function() {
+        var arr = falling(myarr);
+        document.getElementById('table').innerHTML = render(arr);
+    });
+</script>
+</body>
+</html>
