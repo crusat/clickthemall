@@ -2,10 +2,38 @@
 <html>
 <head>
     <title>Click Them All</title>
+    <style>
+        #src {
+            width: 500px;
+            height: 500px;
+        }
+        .ball {
+            border-radius: 25px;
+            width: 25px;
+            height: 25px;
+            float: left;
+            display: block;
+        }
+        .green {
+            background: green;
+        }
+        .red {
+            background: #c41e3a;
+        }
+        .yellow {
+            background: #daa520;
+        }
+        .blue {
+            background: #08457e;
+        }
+        .white {
+            background: white;
+        }
+    </style>
+    <script src="jquery-1.8.1.min.js"></script>
 </head>
 <body>
-    <div id="table"></div>
-    <button id="button">Falling</button>
+    <div id="src"></div>
 <script>
 
     // Генерация игрового массива
@@ -20,8 +48,8 @@
         return arr;
     }
 
-    // Отображение игрового поля
-    function render(arr) {
+    // Отображение игрового поля в табличном виде
+    function renderTable(arr) {
         var html = '<table border="1">';
         for (var y = 0; y < arr.length; y++) {
             html += '<tr>';
@@ -32,6 +60,17 @@
         }
         html += '</table>';
         return html;
+    }
+
+    // Отображение игрового поля в красивом виде
+    function render(gf, colors) {
+        var divfield = '';
+        for (var i=0; i < gf.length; i++) {
+            for (var j=0; j < gf[i].length; j++) {
+                divfield += '<div data-x="'+j+'" data-y="'+i+'" class="ball ' + colors[gf[i][j]] + '"></div>';
+            }
+        }
+        return divfield;
     }
 
     // Падение блоков сверху вниз, если в столбце есть пустые (равные нулю) блоки и слева направо, если столбец слева целиком пустой (только нули)
@@ -66,14 +105,70 @@
         return arr;
     }
 
+    // удаление с игрового поля блоков одинакового цвета
+    function deleteFromGF(gf, x,y, col) {
+        y = parseInt(y);
+        x = parseInt(x);
+        var testX, testY;
+        gf[y][x] = 0;
+        var yArr, xArr;
+        if ((y > 0)&&(y<19)) {
+            yArr = [y-1, y, y+1];
+        }
+        if (y == 0) {
+            yArr = [y, y+1];
+        }
+        if (y == 19) {
+            yArr = [y-1, y];
+        }
 
-    var myarr;
-    myarr = createArray(10,10, 3, 5);
-    document.getElementById('table').innerHTML = render(myarr);
-    document.getElementById('button').onclick = function() {
-        var arr = falling(myarr);
-        document.getElementById('table').innerHTML = render(arr);
-    };
+        if ((x > 0)&&(x<19)) {
+            xArr = [x-1, x, x+1];
+        }
+        if (x == 0) {
+            xArr = [x, x+1];
+        }
+        if (x == 19) {
+            xArr = [x-1, x];
+        }
+
+        var xx, yy;
+        for (testY in yArr) {
+            for (testX in xArr) {
+                xx = xArr[testX];
+                yy = yArr[testY];
+                if ((xx == x)||(yy == y)) {
+                    if (col == gf[yy][xx]) {
+                        gf = deleteFromGF(gf,xx,yy, col);
+                    }
+                }
+
+            }
+        }
+        return gf;
+    }
+
+    // Привязываем события ко всем элементам
+    $('.ball').live('click', function() {
+        var $this = $(this);
+        if (!$this.hasClass('white')) {
+            var x = $this.attr('data-x');
+            var y = $this.attr('data-y');
+            var col = gameField[y][x];
+            gameField = deleteFromGF(gameField, x, y, col);
+            gameField = falling(gameField);
+            console.log(gameField);
+            document.getElementById('src').innerHTML = render(gameField, colors);
+        }
+    });
+
+
+    var gameField = [];
+    var gamefield_width = 20;
+    var gamefield_height = 20;
+    var colors = ['white', 'green', 'red', 'yellow', 'blue'];
+    gameField = createArray(gamefield_width, gamefield_height, 1, 4);
+    document.getElementById('src').innerHTML = render(gameField, colors);
 </script>
 </body>
 </html>
