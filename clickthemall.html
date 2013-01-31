@@ -2,7 +2,6 @@
 <html>
 <head>
     <title>Click Them All</title>
-    <script src="http://code.jquery.com/jquery-1.9.0.min.js"></script>
 </head>
 <body>
     <div id="table"></div>
@@ -54,10 +53,10 @@
     var myarr;
     myarr = createArray(10,10);
     document.getElementById('table').innerHTML = render(myarr);
-    $('#button').click(function() {
+    document.getElementById('button').onclick = function() {
         var arr = falling(myarr);
         document.getElementById('table').innerHTML = render(arr);
-    });
+    };
 </script>
 </body>
 </html>
