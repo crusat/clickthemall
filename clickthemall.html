@@ -91,6 +91,9 @@
                         arr[topRow][leftColumn] = arr[y][x];
                         // А выше ставим ноль
                         arr[y][x] = 0;
+                    } else if (leftColumn != x) {
+                        arr[y][leftColumn] = arr[y][x];
+                        arr[y][x] = 0;
                     }
                     // Поднимаем строку поиска нулей на одну позицию выше
                     topRow--;
