@@ -32,23 +32,44 @@
     }
 
     function falling(arr) {
+        // Перебираем все столбцы слева направо
         for(var x = 0; x < arr.length; x++) {
-            var topRow = arr.length - 1;
-            for(var y = arr[0].length-1; y >= 0; y--)
-            {
-                if(arr[y][x] !== 0)
-                {
-                    if(topRow > y)
-                    {
+            // Записываем номер самой нижней строки
+            var topRow = arr[0].length - 1;
+            // Перебираем все строки снизу вверх
+            for(var y = arr[0].length-1; y >= 0; y--) {
+                // Если элемент со строкой Y и столбцом X не равен 0, то
+                if(arr[y][x] !== 0) {
+                    // Если строка поиска (topRow) находится ниже (ее индекс больше) строки Y
+                    if(topRow > y) {
+                        // Ставим на строку topRow найденное ненулевое значение
                         arr[topRow][x] = arr[y][x];
+                        // А выше ставим ноль
                         arr[y][x] = 0;
                     }
+                    // Поднимаем строку поиска нулей на одну позицию выше
                     topRow--;
                 }
             }
         }
         return arr;
     }
+
+    /*function offsetColumn(arr) {
+        for(var x = arr.length-1; x >= 0; x--) {
+            //var topRow = arr.length - 1;
+            var sum = 0;
+            for(var y = arr[0].length-1; y >= 0; y--)
+            {
+                sum += arr[y][x];
+
+            }
+            if (sum > 0) {
+
+            }
+        }
+        return arr;
+    }*/
 
     var myarr;
     myarr = createArray(10,10);
