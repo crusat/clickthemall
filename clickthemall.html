@@ -4,14 +4,14 @@
     <title>Click Them All</title>
     <style>
         #src {
-            width: 500px;
-            height: 500px;
+            /*width: 500px;
+            height: 500px;*/
         }
         .ball {
             border-radius: 25px;
             width: 25px;
             height: 25px;
-            float: left;
+            position: absolute;
             display: block;
         }
         .green {
@@ -31,19 +31,19 @@
         }
         /* heart form */
         .heart {
-            position: relative;
-            width: 100px;
-            height: 90px;
+            position: absolute;
+            width: 50px;
+            height: 45px;
         }
         .heart:before,
         .heart:after {
             position: absolute;
             content: "";
-            left: 50px;
+            left: 25px;
             top: 0;
-            width: 50px;
-            height: 80px;
-            background: #fc2e5a;
+            width: 25px;
+            height: 40px;
+            /*background: #fc2e5a;*/
             -moz-border-radius: 50px 50px 0 0;
             border-radius: 50px 50px 0 0;
             -webkit-transform: rotate(-45deg);
@@ -56,6 +56,21 @@
             -ms-transform-origin: 0 100%;
             -o-transform-origin: 0 100%;
             transform-origin: 0 100%;
+        }
+        .heart-green:before, .heart-green:after {
+            background: green;
+        }
+        .heart-red:before, .heart-red:after {
+            background: #c41e3a;
+        }
+        .heart-yellow:before, .heart-yellow:after {
+            background: #daa520;
+        }
+        .heart-blue:before, .heart-blue:after {
+            background: #08457e;
+        }
+        .heart-white:before, .heart-white:after {
+            background: white;
         }
         .heart:after {
             left: 0;
@@ -108,7 +123,11 @@
         var divfield = '';
         for (var i=0; i < gf.length; i++) {
             for (var j=0; j < gf[i].length; j++) {
-                divfield += '<div data-x="'+j+'" data-y="'+i+'" class="ball ' + colors[gf[i][j]] + '"></div>';
+                var remove_class = '';
+                if (gf[i][j] < 0) {
+                    remove_class = ' remove';
+                }
+                divfield += '<div data-x="'+j+'" data-y="'+i+'" style="left:'+(j*sizeX)+'px;top:'+(i*sizeY)+'px;" class="gamebrick heart heart-' + colors[Math.abs(gf[i][j])] + remove_class + '"></div>';
             }
         }
         return divfield;
@@ -154,25 +173,25 @@
         y = parseInt(y);
         x = parseInt(x);
         var testX, testY;
-        gf[y][x] = 0;
+        gf[y][x] = -col;
         var yArr, xArr;
-        if ((y > 0)&&(y<19)) {
+        if ((y > 0)&&(y<gf.length)) {
             yArr = [y-1, y, y+1];
         }
         if (y == 0) {
             yArr = [y, y+1];
         }
-        if (y == 19) {
+        if (y == gf.length-1) {
             yArr = [y-1, y];
         }
 
-        if ((x > 0)&&(x<19)) {
+        if ((x > 0)&&(x<gf[0].length)) {
             xArr = [x-1, x, x+1];
         }
         if (x == 0) {
             xArr = [x, x+1];
         }
-        if (x == 19) {
+        if (x == gf.length-1) {
             xArr = [x-1, x];
         }
 
@@ -181,8 +200,8 @@
             for (testX in xArr) {
                 xx = xArr[testX];
                 yy = yArr[testY];
-                if ((xx == x)||(yy == y)) {
-                    if (col == gf[yy][xx]) {
+                if ((xx === x)||(yy === y)) {
+                    if (col === gf[yy][xx]) {
                         gf = deleteFromGF(gf,xx,yy, col);
                     }
                 }
@@ -193,23 +212,35 @@
     }
 
     // Привязываем события ко всем элементам
-    $('.ball').live('click', function() {
+    $('.gamebrick').live('click', function() {
         var $this = $(this);
-        if (!$this.hasClass('white')) {
+        if ((!$this.hasClass('white'))&&(!$this.hasClass('heart-white'))) {
             var x = $this.attr('data-x');
             var y = $this.attr('data-y');
             var col = gameField[y][x];
             gameField = deleteFromGF(gameField, x, y, col);
-            gameField = falling(gameField);
-            console.log(gameField);
             document.getElementById('src').innerHTML = render(gameField, colors);
+            $('.remove').fadeOut(200);
+            setTimeout(function() {
+                for(var x = 0; x < gameField.length; x++) {
+                    for(var y = 0; y < gameField[0].length; y++) {
+                        if (gameField[y][x] < 0) {
+                            gameField[y][x] = 0;
+                        }
+                    }
+                }
+                gameField = falling(gameField);
+                document.getElementById('src').innerHTML = render(gameField, colors);
+            }, 250);
         }
     });
 
 
     var gameField = [];
-    var gamefield_width = 20;
-    var gamefield_height = 20;
+    var gamefield_width = 10;
+    var gamefield_height = 10;
+    var sizeX = 50;//25;
+    var sizeY = 45;//25;
     var colors = ['white', 'green', 'red', 'yellow', 'blue'];
     gameField = createArray(gamefield_width, gamefield_height, 1, 4);
     document.getElementById('src').innerHTML = render(gameField, colors);
