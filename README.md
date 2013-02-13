@@ -1,4 +1,4 @@
 clickthemall
 ============
 
-Free game (analog Clickomania) on web page
+Game (analog Clickomania) on web page

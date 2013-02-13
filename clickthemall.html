@@ -8,6 +8,7 @@
 </head>
 <body>
     <div id="src"></div>
+    <div id="score-div">SCORE: <span id="score">0</span></div>
 <script>
     // Привязываем события ко всем элементам
     $('.gamebrick').live('click', function() {
@@ -32,7 +33,7 @@
                 gameField = falling(gameField);
                 document.getElementById('src').innerHTML = render(gameField, colors, 'ball', sizeX, sizeY);
             }, 250);
-            console.log('SCORE: '+score);
+            $('#score').text(score);
         }
     });
 

@@ -111,7 +111,7 @@ function deleteFromGF(gf, x,y, col, currcount) {
                 if (col === gf[yy][xx]) {
                     var arr = deleteFromGF(gf,xx,yy, col, currcount);
                     gf = arr['gf'];
-                    currcount += arr['currcount'];
+                    currcount = arr['currcount'];
                 }
             }
 
