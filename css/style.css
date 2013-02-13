@@ -1,0 +1,90 @@
+html {
+    background: black;
+    height:100%;
+}
+body { margin: 0; }
+#src {
+    margin: 50px auto;
+    position: relative;
+}
+
+/* ball form */
+
+.ball {
+    border-radius: 25px;
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    display: block;
+}
+.ball-green {
+    background: green;
+}
+.ball-red {
+    background: #c41e3a;
+}
+.ball-yellow {
+    background: #daa520;
+}
+.ball-blue {
+    background: #08457e;
+}
+.balle-white {
+    background: none;
+}
+
+/* heart form */
+.heart {
+    position: absolute;
+    width: 50px;
+    height: 45px;
+}
+.heart:before,
+.heart:after {
+    position: absolute;
+    content: "";
+    left: 25px;
+    top: 0;
+    width: 25px;
+    height: 40px;
+    -moz-border-radius: 50px 50px 0 0;
+    border-radius: 50px 50px 0 0;
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    -webkit-transform-origin: 0 100%;
+    -moz-transform-origin: 0 100%;
+    -ms-transform-origin: 0 100%;
+    -o-transform-origin: 0 100%;
+    transform-origin: 0 100%;
+}
+.heart-green:before, .heart-green:after {
+    background: green;
+}
+.heart-red:before, .heart-red:after {
+    background: #c41e3a;
+}
+.heart-yellow:before, .heart-yellow:after {
+    background: #daa520;
+}
+.heart-blue:before, .heart-blue:after {
+    background: #08457e;
+}
+.heart-white:before, .heart-white:after {
+    background: none;
+}
+.heart:after {
+    left: 0;
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg);
+    -webkit-transform-origin: 100% 100%;
+    -moz-transform-origin: 100% 100%;
+    -ms-transform-origin: 100% 100%;
+    -o-transform-origin: 100% 100%;
+    transform-origin :100% 100%;
+}
