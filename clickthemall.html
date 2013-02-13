@@ -19,7 +19,7 @@
             var col = gameField[y][x];
             var arr = deleteFromGF(gameField, x, y, col, 0);
             gameField = arr['gf'];
-            score += arr['currcount'];
+            score += calcScore(arr['currcount']);
             document.getElementById('src').innerHTML = render(gameField, colors, 'ball', sizeX, sizeY);
             $('.remove').fadeOut(200);
             setTimeout(function() {
