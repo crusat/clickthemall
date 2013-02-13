@@ -127,7 +127,7 @@ function deleteFromGF(gf, x,y, col, currcount) {
 function calcScore(destroyed_brick_count) {
     var result = 0;
     for (var i = 1; i <= destroyed_brick_count; i++) {
-        result += i;
+        result += (i-1);
     }
     return result;
 }
