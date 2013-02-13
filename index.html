@@ -9,16 +9,21 @@
 <body>
     <div id="src"></div>
     <div id="score-div">SCORE: <span id="score">0</span></div>
+    <div id="bricks-destroyed-div">BRICKS DESTROYED: <span id="bricks-destroyed">0</span></div>
+    <div id="clicks-div">CLICKS: <span id="clicks">0</span></div>
 <script>
     // Привязываем события ко всем элементам
     $('.gamebrick').live('click', function() {
         var $this = $(this);
+        clicks += 1;
+        $('#clicks').text(clicks);
         if ((!$this.hasClass('white'))&&(!$this.hasClass('heart-white'))) {
             var x = $this.attr('data-x');
             var y = $this.attr('data-y');
             var col = gameField[y][x];
             var arr = deleteFromGF(gameField, x, y, col, 0);
             gameField = arr['gf'];
+            bricks_destroyed += arr['currcount'];
             score += calcScore(arr['currcount']);
             document.getElementById('src').innerHTML = render(gameField, colors, 'ball', sizeX, sizeY);
             $('.remove').fadeOut(200);
@@ -34,6 +39,7 @@
                 document.getElementById('src').innerHTML = render(gameField, colors, 'ball', sizeX, sizeY);
             }, 250);
             $('#score').text(score);
+            $('#bricks-destroyed').text(bricks_destroyed);
         }
     });
 
@@ -44,6 +50,8 @@
     var sizeX = 25;//50;
     var sizeY = 25;//45;
     var score = 0;
+    var bricks_destroyed = 0;
+    var clicks = 0;
     var src_width = sizeX * gamefield_width;
     $('#src').css('width', src_width+'px');
     var colors = ['white', 'green', 'red', 'yellow', 'blue'];
